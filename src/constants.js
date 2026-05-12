@@ -1,0 +1,24 @@
+export const CATEGORIES = [
+  'COMIC', 
+  'LITERATURE', 
+  'KNOWLEDGE', 
+  'SCIENCE', 
+  'TECHNOLOGY', 
+  'HISTORY', 
+  'BIOGRAPHY', 
+  'FICTION', 
+  'NON_FICTION', 
+  'EDUCATION', 
+  'SELF_HELP', 
+  'BUSINESS', 
+  'PHILOSOPHY', 
+  'RELIGION', 
+  'HEALTH', 
+  'TRAVEL', 
+  'CHILDREN', 
+  'FANTASY', 
+  'ROMANCE', 
+  'THRILLER'
+];
+
+export const BOOK_TYPES = ['PHYSICAL', 'DIGITAL'];

@@ -1,0 +1,6 @@
+{
+  "name": "ReadVault",
+  "description": "A secure digital library management system for browsing, borrowing, and reserving books.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
