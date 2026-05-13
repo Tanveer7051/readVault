@@ -24,10 +24,25 @@ export function getErrorMessage(error, defaultMessage = 'Something went wrong') 
 
 export function formatPublisher(publisher) {
   if (!publisher) return 'N/A';
-  if (typeof publisher === 'string') return publisher;
+  if (typeof publisher === 'string') {
+    const trimmed = publisher.trim();
+    if (!trimmed || 
+        trimmed === 'null null' || 
+        trimmed === 'undefined undefined' || 
+        trimmed.toLowerCase().includes('null') || 
+        trimmed.toLowerCase().includes('undefined')) {
+      return 'N/A';
+    }
+    return trimmed;
+  }
   if (typeof publisher === 'object') {
-    const name = `${publisher.firstname || publisher.firstName || ''} ${publisher.lastname || publisher.lastName || ''}`.trim();
-    return name || publisher.username || publisher.email || 'N/A';
+    const firstName = publisher.firstname || publisher.firstName || '';
+    const lastName = publisher.lastname || publisher.lastName || '';
+    const name = `${firstName} ${lastName}`.trim();
+    if (!name || name.toLowerCase().includes('null') || name.toLowerCase().includes('undefined')) {
+      return publisher.username || publisher.email || 'N/A';
+    }
+    return name;
   }
   return String(publisher);
 }

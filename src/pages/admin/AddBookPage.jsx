@@ -14,7 +14,6 @@ export default function AddBookPage() {
     category: 'FICTION',
     bookType: 'PHYSICAL',
     totalCopies: 1,
-    availableCopies: 1,
   });
   const [images, setImages] = useState({
     image: null,
@@ -27,7 +26,7 @@ export default function AddBookPage() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: ['totalCopies', 'availableCopies'].includes(name) ? parseInt(value) || 0 : value
+      [name]: name === 'totalCopies' ? parseInt(value) || 0 : value
     }));
   };
 
@@ -45,7 +44,7 @@ export default function AddBookPage() {
       Object.keys(formData).forEach(key => {
         let value = formData[key];
         // If type is DIGITAL, do not send copies or set them to 0 as expected by backend
-        if (formData.bookType === 'DIGITAL' && (key === 'totalCopies' || key === 'availableCopies')) {
+        if (formData.bookType === 'DIGITAL' && key === 'totalCopies') {
           value = 0;
         }
         data.append(key, value);
@@ -104,14 +103,10 @@ export default function AddBookPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-bold text-slate-700">Total Copies</label>
             <input disabled={formData.bookType === 'DIGITAL'} required type="number" min="0" name="totalCopies" value={formData.bookType === 'DIGITAL' ? 0 : formData.totalCopies} onChange={handleChange} className="w-full border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all disabled:opacity-50" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Available Copies</label>
-            <input disabled={formData.bookType === 'DIGITAL'} required type="number" min="0" name="availableCopies" value={formData.bookType === 'DIGITAL' ? 0 : formData.availableCopies} onChange={handleChange} className="w-full border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all disabled:opacity-50" />
           </div>
         </div>
 
