@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { bookService } from '../../services/apiService';
-import { Book, Edit, Trash2, Plus } from 'lucide-react';
+import { Book, Edit, Trash2, Plus, User as UserIcon } from 'lucide-react';
 import Button from '../../components/Button';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../../api/axios'; // direct api for delete
+import { getErrorMessage } from '../../lib/utils';
+
+import { formatPublisher } from '../../lib/utils';
 
 export default function ManageBooksPage() {
   const [books, setBooks] = useState([]);
@@ -17,10 +20,11 @@ export default function ManageBooksPage() {
   const fetchBooks = async () => {
     try {
       const data = await bookService.getAll();
-      setBooks(data);
+      const booksArray = Array.isArray(data) ? data : (data?.data && Array.isArray(data.data) ? data.data : (data?.content && Array.isArray(data.content) ? data.content : []));
+      setBooks(booksArray);
     } catch (error) {
       console.error('Failed to fetch books', error);
-      toast.error('Failed to load books');
+      toast.error(getErrorMessage(error, 'Failed to load books'));
     } finally {
       setLoading(false);
     }
@@ -34,7 +38,7 @@ export default function ManageBooksPage() {
       setBooks(books.filter(b => b.id !== id));
     } catch (error) {
       console.error('Delete failed', error);
-      toast.error('Failed to delete book');
+      toast.error(getErrorMessage(error, 'Failed to delete book'));
     }
   };
 
@@ -56,6 +60,7 @@ export default function ManageBooksPage() {
           <thead>
             <tr className="border-b border-slate-200">
               <th className="py-3 px-4 font-bold text-slate-500 text-sm tracking-wider uppercase">Book</th>
+              <th className="py-3 px-4 font-bold text-slate-500 text-sm tracking-wider uppercase">Publisher</th>
               <th className="py-3 px-4 font-bold text-slate-500 text-sm tracking-wider uppercase">Category</th>
               <th className="py-3 px-4 font-bold text-slate-500 text-sm tracking-wider uppercase">Type</th>
               <th className="py-3 px-4 font-bold text-slate-500 text-sm tracking-wider uppercase">Copies</th>
@@ -72,6 +77,14 @@ export default function ManageBooksPage() {
                       <p className="font-bold text-slate-800 line-clamp-1">{book.title}</p>
                       <p className="text-xs text-slate-500">{book.author}</p>
                     </div>
+                  </div>
+                </td>
+                <td className="py-3 px-4">
+                  <div className="flex items-center gap-1 text-slate-600">
+                    <UserIcon className="h-3 w-3 text-primary" />
+                    <span className="text-xs font-semibold">
+                      {formatPublisher(book.publishedBy || book.published_by || book.publisher)}
+                    </span>
                   </div>
                 </td>
                 <td className="py-3 px-4 text-sm text-slate-600">{book.category}</td>

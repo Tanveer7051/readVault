@@ -14,11 +14,13 @@ export default function AdminDashboardHome() {
 
   const fetchStats = async () => {
     try {
-      const books = await bookService.getAll();
+      const data = await bookService.getAll();
+      const booksArray = Array.isArray(data) ? data : (data?.data && Array.isArray(data.data) ? data.data : []);
       const borrows = await borrowService.getAll();
+      const borrowsArray = Array.isArray(borrows) ? borrows : (borrows?.data && Array.isArray(borrows.data) ? borrows.data : []);
       setStats({
-        books: books.length,
-        borrows: borrows.length,
+        books: booksArray.length,
+        borrows: borrowsArray.length,
       });
     } catch (error) {
       console.error('Failed to fetch stats', error);

@@ -9,6 +9,7 @@ import { authService } from '../services/apiService';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { BookMarked, MailCheck } from 'lucide-react';
+import { getErrorMessage } from '../lib/utils';
 
 const registerSchema = z.object({
   firstname: z.string().min(2, 'Required'),
@@ -42,7 +43,7 @@ export default function RegisterPage() {
       toast.success('Registration successful! Please login.');
       navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed.');
+      toast.error(getErrorMessage(error, 'Registration failed.'));
     }
   };
 

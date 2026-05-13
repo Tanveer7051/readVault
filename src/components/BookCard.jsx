@@ -3,6 +3,8 @@ import { BookOpen, MapPin, Monitor } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 
+import { formatPublisher } from '../lib/utils';
+
 export default function BookCard({ book }) {
   return (
     <motion.div
@@ -37,7 +39,12 @@ export default function BookCard({ book }) {
           <h3 className="line-clamp-1 text-base font-bold text-slate-800 mb-1 group-hover:text-primary transition-colors">
             {book.title}
           </h3>
-          <p className="text-sm text-slate-500 mb-4">by {book.author}</p>
+          <p className="text-sm text-slate-500 mb-2">by {book.author}</p>
+          {(book.publishedBy || book.published_by || book.publisher) && (
+            <p className="text-[10px] font-semibold text-slate-400 italic mb-4">
+              Published by: {formatPublisher(book.publishedBy || book.published_by || book.publisher)}
+            </p>
+          )}
           
           <div className="flex items-center justify-between mt-auto pt-2 border-t border-slate-50">
             {(book.bookType || book.type) !== 'DIGITAL' ? (

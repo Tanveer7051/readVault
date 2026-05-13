@@ -14,7 +14,8 @@ export default function HomePage() {
     const fetchBooks = async () => {
       try {
         const data = await bookService.getAll();
-        setFeaturedBooks(data.slice(0, 4));
+        const booksArray = Array.isArray(data) ? data : (data?.data && Array.isArray(data.data) ? data.data : (data?.content && Array.isArray(data.content) ? data.content : []));
+        setFeaturedBooks(booksArray.slice(0, 4));
       } catch (error) {
         console.error('Failed to fetch books', error);
       } finally {

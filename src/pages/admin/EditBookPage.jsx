@@ -6,6 +6,7 @@ import Input from '../../components/Input';
 import toast from 'react-hot-toast';
 import { Save, ArrowLeft, Upload, FileText } from 'lucide-react';
 import { CATEGORIES } from '../../constants';
+import { getErrorMessage } from '../../lib/utils';
 
 export default function EditBookPage() {
   const { id } = useParams();
@@ -96,8 +97,7 @@ export default function EditBookPage() {
       navigate('/admin/books');
     } catch (error) {
       console.error('Update failed', error);
-      const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to update book';
-      toast.error(errorMsg, { duration: 5000 });
+      toast.error(getErrorMessage(error, 'Failed to update book'), { duration: 5000 });
     } finally {
       setSubmitting(false);
     }

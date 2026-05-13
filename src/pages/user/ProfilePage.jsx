@@ -5,6 +5,7 @@ import { setUser } from '../../store';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { User, Camera } from 'lucide-react';
+import { getErrorMessage } from '../../lib/utils';
 
 export default function ProfilePage() {
   const { user } = useSelector(state => state.auth);
@@ -66,7 +67,7 @@ export default function ProfilePage() {
       setIsEditing(false);
     } catch (error) {
       console.error('Update failed', error);
-      toast.error('Failed to update profile');
+      toast.error(getErrorMessage(error, 'Failed to update profile'));
     } finally {
       setLoading(false);
     }

@@ -28,7 +28,8 @@ export default function BrowseBooksPage() {
     setLoading(true);
     try {
       const data = await bookService.getAll();
-      setBooks(data);
+      const booksArray = Array.isArray(data) ? data : (data?.data && Array.isArray(data.data) ? data.data : (data?.content && Array.isArray(data.content) ? data.content : []));
+      setBooks(booksArray);
     } catch (error) {
       console.error('Failed to fetch books', error);
       setBooks([]);
@@ -38,8 +39,12 @@ export default function BrowseBooksPage() {
   };
 
   const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase()) || 
-                          book.author.toLowerCase().includes(search.toLowerCase());
+    if (!book) return false;
+    const title = book.title || '';
+    const author = book.author || '';
+    
+    const matchesSearch = title.toLowerCase().includes(search.toLowerCase()) || 
+                          author.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = category === 'All' || book.category === category;
     const matchesType = type === 'All' || (book.bookType || book.type) === type;
     return matchesSearch && matchesCategory && matchesType;

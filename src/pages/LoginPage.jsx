@@ -10,6 +10,7 @@ import { setCredentials } from '../store';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { BookMarked } from 'lucide-react';
+import { getErrorMessage } from '../lib/utils';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -30,7 +31,7 @@ export default function LoginPage() {
       toast.success('Login successful!');
       navigate('/');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      toast.error(getErrorMessage(error, 'Login failed. Please check your credentials.'));
     }
   };
 

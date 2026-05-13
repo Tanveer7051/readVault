@@ -10,6 +10,22 @@
   body {
     @apply bg-slate-50 text-slate-900 antialiased;
   }
+
+  input::-ms-reveal,
+  input::-ms-clear,
+  input::-webkit-contacts-auto-fill-button,
+  input::-webkit-credentials-auto-fill-button,
+  input::-webkit-caps-lock-indicator {
+    display: none !important;
+  }
+  
+  /* Target any remaining reveal icons */
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none !important;
+    width: 0;
+    height: 0;
+  }
 }
 
 @layer components {

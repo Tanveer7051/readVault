@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { CATEGORIES } from '../../constants';
+import { getErrorMessage } from '../../lib/utils';
 
 export default function AddBookPage() {
   const [formData, setFormData] = useState({
@@ -57,8 +58,7 @@ export default function AddBookPage() {
       navigate('/admin/books');
     } catch (error) {
       console.error('Failed to create book', error);
-      const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to create book';
-      toast.error(errorMsg, { duration: 5000 });
+      toast.error(getErrorMessage(error, 'Failed to create book'), { duration: 5000 });
     } finally {
       setLoading(false);
     }

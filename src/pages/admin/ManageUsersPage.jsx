@@ -4,6 +4,7 @@ import { userService } from '../../services/apiService';
 import { User, Shield, Trash2, Mail, Hash } from 'lucide-react';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../lib/utils';
 
 export default function ManageUsersPage() {
   const { user } = useSelector((state) => state.auth);
@@ -20,7 +21,7 @@ export default function ManageUsersPage() {
       setUsers(data);
     } catch (error) {
       console.error('Failed to fetch users', error);
-      toast.error('Failed to load users');
+      toast.error(getErrorMessage(error, 'Failed to load users'));
     } finally {
       setLoading(false);
     }
@@ -35,8 +36,7 @@ export default function ManageUsersPage() {
       setUsers(users.filter(u => u.id !== id));
     } catch (error) {
       console.error('Delete failed', error);
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to delete user';
-      toast.error(errorMessage);
+      toast.error(getErrorMessage(error, 'Failed to delete user'));
     }
   };
 
@@ -82,8 +82,7 @@ export default function ManageUsersPage() {
       }
     } catch (error) {
       console.error('Update role failed', error);
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to update role';
-      toast.error(errorMessage);
+      toast.error(getErrorMessage(error, 'Failed to update role'));
     }
   };
 

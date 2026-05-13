@@ -4,6 +4,7 @@ import { CheckCircle2, XCircle, Clock, Check } from 'lucide-react';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
+import { getErrorMessage } from '../../lib/utils';
 
 export default function ManageReservationsPage() {
   const [reservations, setReservations] = useState([]);
@@ -19,7 +20,7 @@ export default function ManageReservationsPage() {
       setReservations(data);
     } catch (error) {
       console.error('Failed to fetch reservations', error);
-      toast.error('Failed to load reservations');
+      toast.error(getErrorMessage(error, 'Failed to load reservations'));
     } finally {
       setLoading(false);
     }
@@ -42,7 +43,7 @@ export default function ManageReservationsPage() {
       fetchReservations();
     } catch (error) {
       console.error('Status update failed', error);
-      toast.error(`Failed to process ${status}`);
+      toast.error(getErrorMessage(error, `Failed to process ${status}`));
     }
   };
 

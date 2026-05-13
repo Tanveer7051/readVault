@@ -5,6 +5,8 @@ import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 
+import { getErrorMessage } from '../../lib/utils';
+
 export default function ManageBorrowsPage() {
   const [borrows, setBorrows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +21,7 @@ export default function ManageBorrowsPage() {
       setBorrows(data);
     } catch (error) {
       console.error('Failed to fetch borrows', error);
-      toast.error('Failed to load borrows');
+      toast.error(getErrorMessage(error, 'Failed to load borrows'));
     } finally {
       setLoading(false);
     }
@@ -32,7 +34,7 @@ export default function ManageBorrowsPage() {
       fetchBorrows();
     } catch (error) {
       console.error('Return failed', error);
-      toast.error('Failed to process return');
+      toast.error(getErrorMessage(error, 'Failed to process return'));
     }
   };
 

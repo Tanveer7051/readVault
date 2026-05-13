@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft, MapPin, Monitor } from 'lucide-react';
+import { ChevronLeft, MapPin, Monitor, User as UserIcon } from 'lucide-react';
 import { bookService, borrowService, reservationService } from '../services/apiService';
 import Button from '../components/Button';
 import ReviewSection from '../components/ReviewSection';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { getErrorMessage, formatPublisher } from '../lib/utils';
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -61,7 +62,7 @@ export default function BookDetailsPage() {
       toast.success(successMsg);
       fetchBook();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Action failed.');
+      toast.error(getErrorMessage(error, 'Action failed.'));
     } finally {
       setActionLoading(false);
     }
@@ -81,7 +82,7 @@ export default function BookDetailsPage() {
       setHasActiveDigital(true);
       toast.success('Digital Book Borrowed! You can read it from your dashboard or click Read Online.');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to borrow digital book.');
+      toast.error(getErrorMessage(error, 'Failed to borrow digital book.'));
     } finally {
       setDigitalLoading(false);
     }
@@ -108,6 +109,12 @@ export default function BookDetailsPage() {
             <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{book.category}</p>
             <h1 className="text-3xl font-bold text-slate-800 tracking-tight leading-tight">{book.title}</h1>
             <p className="text-base text-slate-500">by {book.author}</p>
+            {(book.publishedBy || book.published_by || book.publisher) && (
+              <div className="flex items-center gap-2 mt-1">
+                <UserIcon className="h-3.5 w-3.5 text-primary" />
+                <p className="text-xs font-semibold text-slate-400">Published by: <span className="text-slate-600">{formatPublisher(book.publishedBy || book.published_by || book.publisher)}</span></p>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-4">

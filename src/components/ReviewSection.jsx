@@ -3,6 +3,7 @@ import { Star, Trash2, User as UserIcon, Send } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { reviewService } from '../services/apiService';
 import { toast } from 'react-hot-toast';
+import { getErrorMessage } from '../lib/utils';
 import Button from './Button';
 
 export default function ReviewSection({ bookId }) {
@@ -49,7 +50,7 @@ export default function ReviewSection({ bookId }) {
       setRating(5);
       fetchReviews();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to add review');
+      toast.error(getErrorMessage(error, 'Failed to add review'));
     } finally {
       setSubmitting(false);
     }
