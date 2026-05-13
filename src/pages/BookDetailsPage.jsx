@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ChevronLeft, MapPin, Monitor } from 'lucide-react';
 import { bookService, borrowService, reservationService } from '../services/apiService';
 import Button from '../components/Button';
+import ReviewSection from '../components/ReviewSection';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
@@ -185,6 +186,8 @@ export default function BookDetailsPage() {
           </div>
         </div>
       </div>
+      
+      <ReviewSection bookId={book.id} />
     </div>
   );
 }

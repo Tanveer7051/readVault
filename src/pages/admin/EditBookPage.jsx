@@ -88,7 +88,7 @@ export default function EditBookPage() {
         data.append(key, formData[key]);
       });
       
-      if (imageFile) data.append('imgUrl', imageFile);
+      if (imageFile) data.append('imageFile', imageFile);
       if (pdfFile) data.append('pdfFile', pdfFile);
 
       await bookService.update(id, data);

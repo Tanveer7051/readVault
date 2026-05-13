@@ -49,8 +49,8 @@ export default function AddBookPage() {
         }
         data.append(key, value);
       });
-      if (images.image) data.append('imgUrl', images.image);
-      if (images.pdf && formData.bookType === 'DIGITAL') data.append('pdfFile', images.pdf);
+      if (images.image) data.append('imageFile', images.image);
+      if (images.pdf && formData.bookType === 'DIGITAL') data.append('file', images.pdf);
 
       await bookService.create(data);
       toast.success('Book created successfully');

@@ -174,3 +174,20 @@ export const userService = {
     return response.data;
   }
 };
+
+export const reviewService = {
+  add: async (bookId, data) => {
+    const response = await api.post(`/api/reviews/${bookId}`, data);
+    return response.data;
+  },
+
+  getByBook: async (bookId) => {
+    const response = await api.get(`/api/reviews/${bookId}`);
+    return response.data;
+  },
+
+  delete: async (reviewId) => {
+    const response = await api.delete(`/api/reviews/${reviewId}`);
+    return response.data;
+  }
+};
