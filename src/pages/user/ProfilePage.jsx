@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authService } from '../../services/apiService';
 import { setUser } from '../../store';
@@ -14,11 +14,22 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
-    firstname: user?.firstname || '',
-    lastname: user?.lastname || '',
-    username: user?.username || '',
-    email: user?.email || '',
+    firstname: '',
+    lastname: '',
+    username: '',
+    email: '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstname: user.firstname || '',
+        lastname: user.lastname || '',
+        username: user.username || '',
+        email: user.email || '',
+      });
+    }
+  }, [user]);
   
   const [profileImage, setProfileImage] = useState(null);
 

@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   token: localStorage.getItem('accessToken'),
   isAuthenticated: !!localStorage.getItem('accessToken'),
-  loading: false,
+  loading: !!localStorage.getItem('accessToken'),
 };
 
 const authSlice = createSlice({
@@ -21,6 +21,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      state.loading = false;
       localStorage.removeItem('accessToken');
     },
     setLoading: (state, action) => {

@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, logout, setLoading } from './store';
+import { authService } from './services/apiService';
 
 // Layouts
 import MainLayout from './layouts/MainLayout.jsx';
@@ -30,8 +33,17 @@ import ManageReservationsPage from './pages/admin/ManageReservationsPage.jsx';
 import ManageUsersPage from './pages/admin/ManageUsersPage.jsx';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
   
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-slate-500 font-medium animate-pulse">Initializing app...</p>
+      </div>
+    </div>
+  );
+
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (allowedRoles && user && !allowedRoles.includes(user.role)) return <Navigate to="/" replace />;
   
@@ -39,6 +51,28 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 };
 
 export default function App() {
+  const dispatch = useDispatch();
+  const { token, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      if (token && !user) {
+        dispatch(setLoading(true));
+        try {
+          const userData = await authService.getCurrentUser();
+          dispatch(setUser(userData));
+        } catch (error) {
+          console.error('Failed to restore session:', error);
+          dispatch(logout());
+        } finally {
+          dispatch(setLoading(false));
+        }
+      }
+    };
+
+    initializeAuth();
+  }, [dispatch, token, user]);
+
   return (
     <BrowserRouter>
       <Toaster position="top-right" />
