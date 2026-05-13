@@ -1,49 +1,20 @@
-# ReadVault 📚
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-ReadVault is a full-stack digital library management system built using:
+# Run and deploy your AI Studio app
 
-- React + Vite
-- Spring Boot
-- PostgreSQL
-- JWT Authentication
-- Cloudinary
+This contains everything you need to run your app locally.
 
-## Features
+View your app in AI Studio: https://ai.studio/apps/661aa396-745d-4814-bd98-2b26e266fe32
 
-- User Authentication
-- Role-Based Access (Admin/User)
-- Digital & Physical Books
-- Borrow & Reservation System
-- Admin Dashboard
-- Book Management
-- Cloudinary File Uploads
+## Run Locally
 
-## Frontend
-Deployed on Vercel
+**Prerequisites:**  Node.js
 
-## Backend
-Deployed on Railway# ReadVault 📚
 
-ReadVault is a full-stack digital library management system built using:
-
-- React + Vite
-- Spring Boot
-- PostgreSQL
-- JWT Authentication
-- Cloudinary
-
-## Features
-
-- User Authentication
-- Role-Based Access (Admin/User)
-- Digital & Physical Books
-- Borrow & Reservation System
-- Admin Dashboard
-- Book Management
-- Cloudinary File Uploads
-
-## Frontend
-Deployed on Vercel
-
-## Backend
-Deployed on Railway
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

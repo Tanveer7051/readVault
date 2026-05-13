@@ -49,7 +49,7 @@ export default function AddBookPage() {
         }
         data.append(key, value);
       });
-      if (images.image) data.append('imageFile', images.image);
+      if (images.image) data.append('imgUrl', images.image);
       if (images.pdf && formData.bookType === 'DIGITAL') data.append('pdfFile', images.pdf);
 
       await bookService.create(data);
@@ -57,7 +57,8 @@ export default function AddBookPage() {
       navigate('/admin/books');
     } catch (error) {
       console.error('Failed to create book', error);
-      toast.error('Failed to create book');
+      const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to create book';
+      toast.error(errorMsg, { duration: 5000 });
     } finally {
       setLoading(false);
     }

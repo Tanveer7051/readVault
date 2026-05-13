@@ -88,7 +88,7 @@ export default function EditBookPage() {
         data.append(key, formData[key]);
       });
       
-      if (imageFile) data.append('imageFile', imageFile);
+      if (imageFile) data.append('imgUrl', imageFile);
       if (pdfFile) data.append('pdfFile', pdfFile);
 
       await bookService.update(id, data);
@@ -96,7 +96,8 @@ export default function EditBookPage() {
       navigate('/admin/books');
     } catch (error) {
       console.error('Update failed', error);
-      toast.error(error.response?.data?.message || 'Failed to update book');
+      const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to update book';
+      toast.error(errorMsg, { duration: 5000 });
     } finally {
       setSubmitting(false);
     }
